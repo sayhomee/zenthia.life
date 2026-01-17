@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENTHIA | Pure Botany. Restored by Science</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Serif+TC:wght@200;400;500;700&family=Sacramento&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #d2c1aa;
+            --brand-green: #354537;
+            --paper-white: #fdfaf5;
+            --gold-accent: #a68966;
+            --font-serif: 'Noto Serif TC', serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
+        * { box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: #2a2a2a; margin: 0; font-family: var(--font-serif); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+        nav { padding: 40px 5%; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; top: 0; z-index: 1000; }
+        .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: 12px; color: var(--brand-green); text-decoration: none; }
+        .lang-switch button { background: transparent; border: 1px solid var(--brand-green); color: var(--brand-green); padding: 5px 12px; cursor: pointer; font-size: 10px; margin-left: 5px; transition: 0.3s; }
+        .lang-switch button.active { background: var(--brand-green); color: #fff; }
+
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 5% 80px; }
+        .we-are-text { font-family: 'Sacramento', cursive; font-size: clamp(4rem, 6vw, 5.5rem); color: var(--brand-green); margin-bottom: -15px; }
+        .hero h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5.5vw, 4.2rem); letter-spacing: 0.8rem; margin: 30px auto; color: var(--paper-white); font-weight: 200; text-transform: uppercase; line-height: 1.2; }
+        
+        .manifesto { max-width: 850px; margin-top: 20px; }
+        .manifesto p { font-size: 15px; line-height: 2.2; color: var(--brand-green); letter-spacing: 0.08em; margin-bottom: 5px; font-weight: 400; opacity: 0.85; }
+        .divider { width: 60px; height: 1px; background: var(--gold-accent); margin: 40px auto; opacity: 0.5; }
+
+        .console {
+            max-width: 1250px; margin: -60px auto 80px; background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            padding: 40px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 4px; position: relative; z-index: 10;
+        }
+        .filter-group { display: flex; align-items: center; gap: 8px; margin-bottom: 25px; border-bottom: 1px solid rgba(53, 69, 55, 0.05); padding-bottom: 20px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+        .filter-group::-webkit-scrollbar { display: none; }
+        .filter-label { font-size: 10px; font-weight: 900; color: var(--gold-accent); min-width: 110px; letter-spacing: 3px; text-transform: uppercase; flex-shrink: 0; }
+        .t-btn { background: none; border: none; padding: 8px 10px; font-size: 11px; cursor: pointer; color: rgba(53, 69, 55, 0.4); transition: 0.4s; letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; }
+        .t-btn.active { color: var(--brand-green); font-weight: 700; position: relative; }
+        .t-btn.active::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 3px; height: 3px; background: var(--brand-green); border-radius: 50%; }
+
+        .catalog { max-width: 1300px; margin: 0 auto 150px; padding: 0 40px; }
+        .p-card {
+            background: var(--paper-white); margin-bottom: 30px; display: grid; grid-template-columns: 80px 250px 1fr 320px;
+            opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .p-card.visible { opacity: 1; transform: translateY(0); }
+        .p-card:hover { transform: translateY(-12px); box-shadow: 0 50px 100px rgba(53, 69, 55, 0.18); }
+
+        .p-num { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: rgba(53, 69, 55, 0.15); padding: 45px 20px; }
+        .p-side { padding: 45px 30px; border-right: 1px solid #f2f0eb; }
+        .p-meridian { font-size: 9px; color: var(--gold-accent); letter-spacing: 3px; font-weight: 900; margin-bottom: 12px; display: block; }
+        .p-name-cn { font-size: 18px; font-weight: 700; color: var(--brand-green); margin-bottom: 4px; }
+        .p-name-en { font-family: var(--font-display); font-size: 11px; font-weight: 400; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .p-name-jp { font-size: 13px; color: var(--gold-accent); font-style: italic; font-weight: 400; }
+
+        .p-main { padding: 45px 50px; }
+        .p-lbl { font-size: 9px; color: #c0b7ad; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+        .p-eff { font-size: 16px; font-weight: 700; color: var(--brand-green); margin-bottom: 10px; line-height: 1.4; }
+        .p-tg { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+
+        .molecular-btn {
+            display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid rgba(166, 137, 102, 0.3);
+            padding: 8px 15px; cursor: pointer; transition: 0.3s; font-size: 10px; letter-spacing: 2px; color: var(--gold-accent); font-weight: 700;
+        }
+        .molecular-btn svg { width: 16px; height: 16px; fill: var(--gold-accent); transition: 0.5s; }
+        .molecular-btn:hover { border-color: var(--brand-green); color: var(--brand-green); background: #fdfaf5; }
+        .molecular-btn:hover svg { transform: rotate(-15deg); fill: var(--brand-green); }
+
+        .p-formula { padding: 45px 35px; background: rgba(0,0,0,0.01); border-left: 1px solid #eee; }
+        .f-item { display: block; margin-bottom: 12px; }
+        .f-cn { font-size: 13px; color: #333; font-weight: 600; }
+        .f-jp { font-size: 11px; color: var(--gold-accent); margin-left: 6px; }
+        .f-en { font-family: var(--font-display); font-size: 9px; color: #777; text-transform: uppercase; display: block; margin-top: 2px; }
+
+        .panel-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.25); display: none; z-index: 1500; backdrop-filter: blur(8px); }
+        .panel-overlay.show { display: block; }
+        .detail-panel {
+            position: fixed; top: 0; right: -650px; width: 600px; height: 100vh;
+            background: rgba(253, 250, 245, 0.98); backdrop-filter: blur(50px);
+            z-index: 2000; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); padding: 80px 60px;
+            overflow-y: auto; box-shadow: -20px 0 60px rgba(0,0,0,0.1);
+        }
+        .detail-panel.open { right: 0; }
+        .full-formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px; margin-bottom: 40px; }
+        .timeline-container { margin: 40px 0; border-top: 1px solid #eee; padding-top: 40px; }
+        .timeline-item { position: relative; padding-left: 30px; margin-bottom: 30px; border-left: 1px solid var(--gold-accent); }
+        .timeline-item::before { content: ''; position: absolute; left: -5px; top: 0; width: 9px; height: 9px; background: var(--gold-accent); border-radius: 50%; }
+        .t-step { font-family: var(--font-display); font-size: 10px; color: var(--gold-accent); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .t-desc { font-size: 13px; color: #555; line-height: 1.6; }
+        .buy-btn { width: 100%; margin-top: 20px; padding: 25px; background: var(--brand-green); color: #fff; border: none; cursor: pointer; font-family: var(--font-display); letter-spacing: 4px; font-weight: 700; }
+
+        @media (max-width: 1100px) { .p-card { grid-template-columns: 1fr; } .detail-panel { width: 100%; } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo">ZENTHIA</a>
+    <div class="lang-switch">
+        <button class="active" onclick="setL('zt')">繁體</button>
+        <button onclick="setL('en')">EN</button>
+        <button onclick="setL('zh')">简体</button>
+        <button onclick="setL('jp')">日本語</button>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="we-are-text">We are what we drink</div>
+    <h1 id="ui-title">喚醒天然 身體機能</h1>
+    <div class="manifesto">
+        <p id="man-1">Zenthia Botanical Instant Beverage is made from carefully selected botanicals.</p>
+        <p id="man-2">零添加，香氣與口感皆源於自然。</p>
+        <p id="man-3">Science meets Botany.</p>
+        <div class="divider"></div>
+    </div>
+</header>
+
+<div class="console">
+    <div class="filter-group" id="group-org"></div>
+    <div class="filter-group" id="group-scn"></div>
+</div>
+
+<div class="catalog" id="list"></div>
+
+<div class="panel-overlay" onclick="closeDetail()"></div>
+<div id="detailPanel" class="detail-panel">
+    <div id="btn-close" style="cursor:pointer; margin-bottom:40px; font-size: 11px; color: var(--gold-accent);" onclick="closeDetail()">✕ CLOSE DATA</div>
+    <h2 id="p-title-cn" style="font-size:28px; color: var(--brand-green); margin-bottom: 5px;">Chinese Name</h2>
+    <div id="p-title-en" style="font-family: var(--font-display); font-size: 14px; color: #888; text-transform: uppercase; margin-bottom: 20px;">English Name</div>
+    <div id="p-desc" style="line-height:2.1; margin: 30px 0; color:#555; font-size: 15px;">Desc</div>
+    <span class="p-lbl" id="lbl-full-formula">Complete Botanical Formula</span>
+    <div class="full-formula-grid" id="full-formula"></div>
+    <span class="p-lbl" id="lbl-trace">Botanical Timeline / 草本溯源</span>
+    <div class="timeline-container" id="timeline-box"></div>
+    <button class="buy-btn" id="buy-btn-text">ADD TO RITUAL</button>
+</div>
+
+<script>
+    const GINKGO_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,85 C50,70 52,65 58,55 C70,40 95,35 95,20 C95,5 75,2 65,15 C60,22 55,25 50,25 C45,25 40,22 35,15 C25,2 5,5 5,20 C5,35 30,40 42,55 C48,65 50,70 50,85" stroke-width="2" /></svg>`;
+
+    const i18n = {
+        zt: { 
+            title: "喚醒天然 身體機能", eff: "身心獲益 BENEFITS", tg: "生活提案 RITUALS", form: "草本配方 FORMULA", meridian: "歸經", lblOrg: "五臟歸經", lblScn: "生活提案", more: "+ 更多", buy: "加入每日儀式", molData: "分子數據", close: "✕ 關閉數據", fullForm: "完整草本配方", trace: "草本溯源", 
+            orgs: ["全部 ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "腎 KIDNEY"],
+            scns: ["全部 ALL", "舒眠 SLEEP", "代謝 DETOX", "元氣 ENERGY", "呼吸 BREATH", "明目 VISION", "平衡 BALANCE", "生理期 PERIOD"],
+            man: ["甄選全球道地草本，堅持全株植物投料。","零添加，香氣與口感皆源於自然。","分子級溫和精煉，保留植物原始的純淨與機能。"],
+            steps: ["來源：從全球道地產區篩選一級原材。","萃取：採用低溫分子級萃取技術。","還原：3秒還原鮮萃感，唯有植物能量。"]
+        },
+        en: { 
+            title: "Awakening NATURAL BODY INTELLIGENCE", eff: "WELLNESS BENEFITS", tg: "LIFESTYLE RITUALS", form: "FORMULA", meridian: "MERIDIAN", lblOrg: "BY MERIDIAN", lblScn: "BY RITUAL", more: "+ MORE", buy: "ADD TO RITUAL", molData: "MOLECULAR DATA", close: "✕ CLOSE DATA", fullForm: "Complete Botanical Formula", trace: "Botanical Timeline",
+            orgs: ["ALL", "HEART", "LIVER", "SPLEEN", "LUNG", "KIDNEY"],
+            scns: ["ALL", "SLEEP", "DETOX", "ENERGY", "BREATH", "VISION", "BALANCE", "PERIOD"],
+            man: ["Selected global botanicals, using whole plant ingredients.","Zero additives. Purely natural taste and aroma.","Molecularly refined to preserve natural clarity."],
+            steps: ["Origin: Sourced from premium global regions.","Extraction: Low-temperature molecular extraction.","Restoration: Instant restoration of pure plant energy."]
+        },
+        zh: { 
+            title: "唤醒天然 身体机能", eff: "身心获益 BENEFITS", tg: "生活提案 RITUALS", form: "草本配方 FORMULA", meridian: "归经", lblOrg: "五脏归经", lblScn: "生活提案", more: "+ 更多", buy: "加入每日仪式", molData: "分子数据", close: "✕ 关闭数据", fullForm: "完整草本配方", trace: "草本溯源",
+            orgs: ["全部 ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "肾 KIDNEY"],
+            scns: ["全部 ALL", "舒眠 SLEEP", "代谢 DETOX", "元气 ENERGY", "呼吸 BREATH", "明目 VISION", "平衡 BALANCE", "生理期 PERIOD"],
+            man: ["甄选全球道地草本，坚持全株植物投料。","零添加，香气与口感皆源于自然。","分子级温和精炼，保留植物原始的纯净与机能。"],
+            steps: ["来源：从全球道地产区筛选一级原材。","萃取：采用低温分子级萃取技术。","还原：3秒还原鲜萃感，唯有植物能量。"]
+        },
+        jp: { 
+            title: "自然な身体知性を呼び覚ます", eff: "身体への恩恵", tg: "ライフスタイル", form: "処方", meridian: "帰経", lblOrg: "五臓帰経", lblScn: "シーン別", more: "+ 全成分", buy: "儀式に加える", molData: "分子データ", close: "✕ データを閉じる", fullForm: "全成分表示", trace: "ボタニカル・タイムライン",
+            orgs: ["すべて ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "腎 KIDNEY"],
+            scns: ["すべて ALL", "睡眠 SLEEP", "代謝 DETOX", "元気 ENERGY", "呼吸 BREATH", "明目 VISION", "バランス BALANCE", "生理期 PERIOD"],
+            man: ["世界中から厳選されたボタニカルを丸ごと。","添加物ゼロ。すべては植物本来の味と香り。","分子レベルの精製により、純粋さと機能を。"],
+            steps: ["産地：世界中の名産地から厳選された原料。","抽出：低温分子抽出により香りを損なわず抽出。","還元：3秒で淹れたての味。植物の癒やしを。"]
+        }
+    };
+
+    const products = [
+        { id: "01", zt: "茯苓酸棗仁", zh: "茯苓酸枣仁", en: "Evening Ritual", jp: "静夜", org: ["心", "脾"], scn: ["舒眠"], eff: { zt: "養心安神，引導深度入眠", zh: "养心安神，科学助眠体验", en: "Support Deep Sleep & mental calm", jp: "心を静め、深い休息へと導きます" }, tg: { zt: "睡前儀式，安靜閱讀時刻。", zh: "睡前仪式，睡前深度放松。", en: "Bedtime ritual, quiet reading.", jp: "おやすみ前の静かなひとときに。" }, ing: [{cn: "茯苓", en: "Poria", jp: "ブクリョウ"}, {cn: "酸棗仁", en: "Jujube Seed", jp: "サンソウニン"}, {cn: "龍眼肉", en: "Longan Aril", jp: "リュウガンニク"}, {cn: "百合", en: "Lily Bulb", jp: "ビャクゴウ"}] },
+        { id: "02", zt: "薏米赤豆", zh: "薏米赤豆", en: "Daily Lightness", jp: "軽やか", org: ["脾", "肺"], scn: ["代謝"], eff: { zt: "祛濕清補，維持輕盈體感", zh: "促进水分代谢，告别沉重感", en: "Fluid Balance & reduce puffiness", jp: "余分なものを流し、身体を軽やかに" }, tg: { zt: "餐後去膩，久坐族必備。", zh: "餐后解腻，久坐办公必备。", en: "Post-meal metabolic support.", jp: "デスクワークや食後的デトックスに。" }, ing: [{cn: "薏苡仁", en: "Coix Seed", jp: "ヨクイニン"}, {cn: "赤小豆", en: "Adzuki Bean", jp: "セキショウズ"}, {cn: "芡實", en: "Euryale Seed", jp: "オニバスの実"}] },
+        { id: "03", zt: "葛根枳椇", zh: "葛根枳椇", en: "After Gathering", jp: "余韻", org: ["肝", "脾"], scn: ["代謝"], eff: { zt: "社交修復，應酬後之清潤", zh: "肝脏支持，应酬后迅速找回状态", en: "Liver Support & social recovery", jp: "宴の後の身体を、優しく整える" }, tg: { zt: "聚會社交後，恢復清醒。", zh: "聚会社交后，找回清爽状态。", en: "After social gathering.", jp: "お付き合いの後のリセットに。" }, ing: [{cn: "葛根", en: "Kudzu Root", jp: "カッコン"}, {cn: "枳椇子", en: "Raisin Tree Seed", jp: "ケンポナシ"}, {cn: "陳皮", en: "Tangerine Peel", jp: "チンピ"}] },
+        { id: "04", zt: "清暉", zh: "清晖", en: "Fresh & Clear", jp: "澄光", org: ["肺"], scn: ["呼吸"], eff: { zt: "清潤咽喉，保持呼吸順暢", zh: "滋润咽喉，清新呼吸系统", en: "Respiratory Comfort & soothe throat", jp: "喉を潤し、呼吸をクリアに保ちます" }, tg: { zt: "乾燥季節或長時間講話。", zh: "干燥环境或长时间用嗓。", en: "For clear breathing.", jp: "乾燥する時期や長時間の会話に。" }, ing: [{cn: "金銀花", en: "Honeysuckle", jp: "キンギンカ"}, {cn: "魚腥草", en: "Houttuynia", jp: "ドクダミ"}, {cn: "薄荷", en: "Mint", jp: "ハッカ"}] },
+        { id: "05", zt: "菊花藍莓", zh: "菊花蓝莓", en: "Screen Break", jp: "ひと休み", org: ["肝"], scn: ["明目"], eff: { zt: "明目之選，緩解視力疲勞", zh: "明亮视野，缓解眼部干涩", en: "Vision Support & eye relief", jp: "クリアな視界と、瞳の休息をサポート" }, tg: { zt: "長時間面對屏幕者。", zh: "长时间面对电子屏幕者。", en: "From long-term screen use.", jp: "パソコンやスマホを多用する方に。" }, ing: [{cn: "菊花", en: "Chrysanthemum", jp: "キクカ"}, {cn: "藍莓", en: "Blueberry", jp: "ブルーベリー"}, {cn: "枸杞", en: "Goji", jp: "クコの実"}] },
+        { id: "06", zt: "人參葛根", zh: "人参葛根", en: "Vital Balance", jp: "調和", org: ["心", "脾"], scn: ["元氣"], eff: { zt: "益氣補力，對抗身心勞累", zh: "元气补给，快速恢复体力", en: "Energy & Revitalize", jp: "エネルギーを満たし、活力を取り戻す" }, tg: { zt: "熬夜疲憊後的活力補充。", zh: "疲劳状态下的能量加油站。", en: "Natural tonic for fatigue.", jp: "疲れを感じた時の能量補給に。" }, ing: [{cn: "人參", en: "Ginseng", jp: "高麗人参"}, {cn: "葛根", en: "Kudzu Root", jp: "カッコン"}, {cn: "黃精", en: "Polygonatum", jp: "オウセイ"}] },
+        { id: "07", zt: "玫瑰百合", zh: "玫瑰百合", en: "Rose Harmony", jp: "花息", org: ["心", "肝"], scn: ["平衡"], eff: { zt: "疏肝解鬱，溫潤身心平靜", zh: "舒压悦心，平衡焦虑情绪", en: "Emotional Calm & mood balance", jp: "心を穏やかに、内側から癒やします" }, tg: { zt: "尋求情緒平穩的片刻。", zh: "寻找内心平衡的静谧时光。", en: "Support inner peace.", jp: "心身をリラックスさせたい時に。" }, ing: [{cn: "玫瑰", en: "Rose", jp: "マイカイカ"}, {cn: "百合", en: "Lily Bulb", jp: "ビャクゴウ"}, {cn: "紅棗", en: "Red Date", jp: "タイソウ"}] },
+        { id: "08", zt: "菊苣梔子", zh: "菊苣栀子", en: "Pure Flow", jp: "流れ", org: ["肝", "腎"], scn: ["代謝"], eff: { zt: "淨化內環境，促進代謝流轉", zh: "平衡代谢，支持内环境纯净", en: "Metabolic Detox & flow", jp: "内側の流れを整え、純浄な身體へ" }, tg: { zt: "維持體內酸鹼平衡。", zh: "维持健康的内部代谢环境。", en: "Daily metabolic balance.", jp: "健やかな巡りの習慣に。" }, ing: [{cn: "菊苣", en: "Chicory", jp: "チコリ"}, {cn: "梔子", en: "Gardenia", jp: "サンシシ"}, {cn: "桑葉", en: "Mulberry Leaf", jp: "ソウヨウ"}] },
+        { id: "12", zt: "安唐分子茶", zh: "安唐分子茶", en: "Glucose Support", jp: "安唐", org: ["脾", "腎"], scn: ["平衡"], eff: { zt: "穩定內在，專研能量平衡", zh: "稳糖支持，专研机体平衡", en: "Steady Balance & energy stability", jp: "內側の安定をサポートする、專門の知恵" }, tg: { zt: "中老年及控糖人群常備。", zh: "中老年及控糖人群日常饮用。", en: "Glucose management support.", jp: "健康数値を気にする毎日の習慣に。" }, ing: [{cn: "桑葉", en: "Mulberry Leaf", jp: "ソウヨウ"}, {cn: "青錢柳", en: "Cyclocarya", jp: "シンセンリュウ"}] },
+        { id: "14", zt: "四君子湯", zh: "四君子汤", en: "Four Gentlemen", jp: "四君子", org: ["脾"], scn: ["平衡"], eff: { zt: "益氣健脾，強化運化吸收", zh: "增强脾胃运化，补足能量", en: "Qi Vitality & digestive base", jp: "身體の源を強め、內側から整える" }, tg: { zt: "脾虛體質的日常調養。", zh: "脾胃虚弱者日常能量吸收。", en: "Classic digestive Qi support.", jp: "胃腸の元気を補う、伝統の処方。" }, ing: [{cn: "人參", en: "Ginseng", jp: "高麗人参"}, {cn: "白朮", en: "Atractylodes", jp: "ビャクジュツ"}, {cn: "茯苓", en: "Poria", jp: "ブクリョウ"}] },
+        { id: "15", zt: "四物湯", zh: "四物汤", en: "Four Wonders", jp: "四物", org: ["肝", "心"], scn: ["生理期"], eff: { zt: "活血養顏，溫潤女性根本", zh: "红润气色，女性经期后调理", en: "Blood Vitality & women's health", jp: "女性の美しさと、巡りをサポート" }, tg: { zt: "經後調理，重煥紅潤氣色。", zh: "经期后调理，恢复红润面色。", en: "Post-period replenishment.", jp: "月のサイクルを整え、艶やかに。" }, ing: [{cn: "當歸", en: "Angelica", jp: "トウキ"}, {cn: "熟地", en: "Rehmannia", jp: "ジュクジオウ"}, {cn: "白芍", en: "White Peony", jp: "ビャクシャク"}] },
+        { id: "18", zt: "枸杞松露", zh: "枸杞松露", en: "Goji & Truffle", jp: "深森", org: ["腎"], scn: ["元氣"], eff: { zt: "固本培元，男士活力珍品", zh: "深层滋补，提升持久耐力", en: "Premium Vitality & stamina", jp: "希少な恵みで、究極の活力を呼び覺ます" }, tg: { zt: "高強度工作與精力補充。", zh: "精英人士高压下的能量保障。", en: "High-performance support.", jp: "高いパフォーマンスを維持したい時に。" }, ing: [{cn: "枸杞", en: "Goji Berry", jp: "クコの実"}, {cn: "黑松露", en: "Black Truffle", jp: "黒トリュフ"}, {cn: "瑪咖", en: "Maca", jp: "マカ"}] }
+    ];
+
+    // 填充剩余型号
+    for(let i=1; i<=45; i++) {
+        let sid = i.toString().padStart(2, '0');
+        if(!products.find(p => p.id === sid)) {
+            products.push({
+                id: sid, zt: `草本分子 ${sid} 號`, zh: `草本分子 ${sid} 号`, en: `Molecular No. ${sid}`, jp: `分子 ${sid} 番`,
+                org: ["肝", "心", "脾", "肺", "腎"][i%5].split(''), scn: ["平衡"],
+                eff: { zt: "精確分子配方，平衡日常機能", zh: "精确分子配方，平衡日常机能", en: "Precise molecular formula for daily balance", jp: "精緻な分子処方で、日々の機能を整える" },
+                tg: { zt: "每日一次，靜心服用。", zh: "每日一次，静心服用。", en: "Once daily ritual.", jp: "一日に一度、静かな習慣として。" },
+                ing: [{cn: "分子原材", en: "Molecular Base", jp: "分子原料"}]
+            });
+        }
+    }
+    products.sort((a,b) => parseInt(a.id) - parseInt(b.id));
+
+    let curL = 'zt';
+    let curFilters = { org: 'all', scn: 'all' };
+
+    function setL(lang) {
+        curL = lang;
+        const t = i18n[lang];
+        document.querySelectorAll('.lang-switch button').forEach(b => {
+            const bt = b.innerText.toLowerCase();
+            b.classList.toggle('active', (lang === 'zt' && bt === '繁體') || (lang === 'zh' && bt === '简体') || (bt === lang));
+        });
+        document.getElementById('ui-title').innerText = t.title;
+        document.getElementById('man-1').innerText = t.man[0];
+        document.getElementById('man-2').innerText = t.man[1];
+        document.getElementById('man-3').innerText = t.man[2];
+        document.getElementById('btn-close').innerText = t.close;
+        document.getElementById('lbl-full-formula').innerText = t.fullForm;
+        document.getElementById('lbl-trace').innerText = t.trace;
+        document.getElementById('buy-btn-text').innerText = t.buy;
+
+        const orgValues = ["all", "心", "肝", "脾", "肺", "腎"];
+        const scnValues = ["all", "舒眠", "代謝", "元氣", "呼吸", "明目", "平衡", "生理期"];
+
+        document.getElementById('group-org').innerHTML = `<div class="filter-label">${t.lblOrg}</div>` + orgValues.map((v, i) => 
+            `<button class="t-btn ${curFilters.org === v ? 'active' : ''}" data-f="org" data-v="${v}" onclick="filter(this)">${t.orgs[i]}</button>`
+        ).join('');
+
+        document.getElementById('group-scn').innerHTML = `<div class="filter-label">${t.lblScn}</div>` + scnValues.map((v, i) => 
+            `<button class="t-btn ${curFilters.scn === v ? 'active' : ''}" data-f="scn" data-v="${v}" onclick="filter(this)">${t.scns[i]}</button>`
+        ).join('');
+
+        render();
+    }
+
+    function filter(btn) {
+        curFilters[btn.dataset.f] = btn.dataset.v;
+        btn.parentNode.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('list');
+        const t = i18n[curL];
+        const filtered = products.filter(p => 
+            (curFilters.org === 'all' || p.org.includes(curFilters.org)) && 
+            (curFilters.scn === 'all' || p.scn.includes(curFilters.scn))
+        );
+
+        list.innerHTML = filtered.map((p, idx) => `
+            <div class="p-card visible" style="transition-delay:${idx*0.01}s" onclick="openDetail('${p.id}')">
+                <div class="p-num">${p.id}</div>
+                <div class="p-side">
+                    <span class="p-meridian">${p.org.join('・')}${t.meridian}</span>
+                    <div class="p-name-cn">${p[curL]}</div>
+                    <span class="p-name-en">${p.en}</span>
+                    <div class="p-name-jp">${p.jp}</div>
+                </div>
+                <div class="p-main">
+                    <span class="p-lbl">${t.eff}</span>
+                    <div class="p-eff">${p.eff[curL]}</div>
+                    <span class="p-lbl">${t.tg}</span>
+                    <div class="p-tg">${p.tg[curL]}</div>
+                    <button class="molecular-btn">${GINKGO_ICON} <span>${t.molData}</span></button>
+                </div>
+                <div class="p-formula">
+                    <span class="p-lbl">${t.form}</span>
+                    ${p.ing.slice(0, 3).map(i => `
+                        <div class="f-item">
+                            <span class="f-cn">${i.cn}</span>
+                            <span class="f-jp">${i.jp}</span>
+                            <span class="f-en">${i.en}</span>
+                        </div>
+                    `).join('')}
+                    ${p.ing.length > 3 ? `<div style="font-size:10px; color:var(--gold-accent); font-weight:700;">${t.more}</div>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function openDetail(id) {
+        const p = products.find(prod => prod.id === id);
+        const t = i18n[curL];
+        document.getElementById('p-title-cn').innerText = p[curL];
+        document.getElementById('p-title-en').innerText = `${p.en} / ${p.jp}`;
+        document.getElementById('p-desc').innerText = p.eff[curL];
+        document.getElementById('full-formula').innerHTML = p.ing.map(i => `
+            <div class="f-item" style="margin-bottom:20px;">
+                <span class="f-cn" style="font-size:15px;">${i.cn}</span>
+                <span class="f-jp" style="font-size:12px; color:var(--gold-accent); display:block;">${i.jp}</span>
+                <span class="f-en" style="font-size:10px; color:#999; text-transform:uppercase;">${i.en}</span>
+            </div>
+        `).join('');
+        document.getElementById('timeline-box').innerHTML = t.steps.map((step, i) => `
+            <div class="timeline-item">
+                <span class="t-step">Step 0${i+1}</span>
+                <div class="t-desc">${step}</div>
+            </div>
+        `).join('');
+        document.querySelector('.panel-overlay').classList.add('show');
+        document.getElementById('detailPanel').classList.add('open');
+    }
+
+    function closeDetail() {
+        document.querySelector('.panel-overlay').classList.remove('show');
+        document.getElementById('detailPanel').classList.remove('open');
+    }
+
+    window.onload = () => setL('zt');
+</script>
+</body>
+</html>
