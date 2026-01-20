@@ -1,0 +1,21 @@
+.catalog {
+  max-width: 1300px;
+  margin: 0 auto 150px;
+  padding: 0 40px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .catalog {
+    padding: 0 15px;
+    margin-bottom: 100px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .catalog {
+    padding: 0 10px;
+    margin-bottom: 80px;
+  }
+}

@@ -1,0 +1,82 @@
+export const i18n = {
+  zt: { 
+    title: "喚醒天然 身體機能", 
+    eff: "身心獲益 BENEFITS", 
+    tg: "生活提案 RITUALS", 
+    form: "草本配方 FORMULA", 
+    meridian: "歸經", 
+    lblOrg: "五臟歸經", 
+    lblScn: "生活提案", 
+    more: "+ 更多", 
+    buy: "加入每日儀式", 
+    molData: "分子數據", 
+    close: "✕ 關閉數據", 
+    fullForm: "完整草本配方", 
+    trace: "草本溯源", 
+    orgs: ["全部 ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "腎 KIDNEY"],
+    scns: ["全部 ALL", "舒眠 SLEEP", "代謝 DETOX", "元氣 ENERGY", "呼吸 BREATH", "明目 VISION", "平衡 BALANCE", "生理期 PERIOD"],
+    man: ["甄選全球道地草本，堅持全株植物投料。","零添加，香氣與口感皆源於自然。","分子級溫和精煉，保留植物原始的純淨與機能。"],
+    steps: ["來源：從全球道地產區篩選一級原材。","萃取：採用低溫分子級萃取技術。","還原：3秒還原鮮萃感，唯有植物能量。"]
+  },
+  en: { 
+    title: "Awakening NATURAL BODY INTELLIGENCE", 
+    eff: "WELLNESS BENEFITS", 
+    tg: "LIFESTYLE RITUALS", 
+    form: "FORMULA", 
+    meridian: "MERIDIAN", 
+    lblOrg: "BY MERIDIAN", 
+    lblScn: "BY RITUAL", 
+    more: "+ MORE", 
+    buy: "ADD TO RITUAL", 
+    molData: "MOLECULAR DATA", 
+    close: "✕ CLOSE DATA", 
+    fullForm: "Complete Botanical Formula", 
+    trace: "Botanical Timeline",
+    orgs: ["ALL", "HEART", "LIVER", "SPLEEN", "LUNG", "KIDNEY"],
+    scns: ["ALL", "SLEEP", "DETOX", "ENERGY", "BREATH", "VISION", "BALANCE", "PERIOD"],
+    man: ["Selected global botanicals, using whole plant ingredients.","Zero additives. Purely natural taste and aroma.","Molecularly refined to preserve natural clarity."],
+    steps: ["Origin: Sourced from premium global regions.","Extraction: Low-temperature molecular extraction.","Restoration: Instant restoration of pure plant energy."]
+  },
+  zh: { 
+    title: "唤醒天然 身体机能", 
+    eff: "身心获益 BENEFITS", 
+    tg: "生活提案 RITUALS", 
+    form: "草本配方 FORMULA", 
+    meridian: "归经", 
+    lblOrg: "五脏归经", 
+    lblScn: "生活提案", 
+    more: "+ 更多", 
+    buy: "加入每日仪式", 
+    molData: "分子数据", 
+    close: "✕ 关闭数据", 
+    fullForm: "完整草本配方", 
+    trace: "草本溯源",
+    orgs: ["全部 ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "肾 KIDNEY"],
+    scns: ["全部 ALL", "舒眠 SLEEP", "代谢 DETOX", "元气 ENERGY", "呼吸 BREATH", "明目 VISION", "平衡 BALANCE", "生理期 PERIOD"],
+    man: ["甄选全球道地草本，坚持全株植物投料。","零添加，香气与口感皆源于自然。","分子级温和精炼，保留植物原始的纯净与机能。"],
+    steps: ["来源：从全球道地产区筛选一级原材。","萃取：采用低温分子级萃取技术。","还原：3秒还原鲜萃感，唯有植物能量。"]
+  },
+  jp: { 
+    title: "自然な身体知性を呼び覚ます", 
+    eff: "身体への恩恵", 
+    tg: "ライフスタイル", 
+    form: "処方", 
+    meridian: "帰経", 
+    lblOrg: "五臓帰経", 
+    lblScn: "シーン別", 
+    more: "+ 全成分", 
+    buy: "儀式に加える", 
+    molData: "分子データ", 
+    close: "✕ データを閉じる", 
+    fullForm: "全成分表示", 
+    trace: "ボタニカル・タイムライン",
+    orgs: ["すべて ALL", "心 HEART", "肝 LIVER", "脾 SPLEEN", "肺 LUNG", "腎 KIDNEY"],
+    scns: ["すべて ALL", "睡眠 SLEEP", "代謝 DETOX", "元気 ENERGY", "呼吸 BREATH", "明目 VISION", "バランス BALANCE", "生理期 PERIOD"],
+    man: ["世界中から厳選されたボタニカルを丸ごと。","添加物ゼロ。すべては植物本来の味と香り。","分子レベルの精製により、純粋さと機能を。"],
+    steps: ["産地：世界中の名産地から厳選された原料。","抽出：低温分子抽出により香りを損なわず抽出。","還元：3秒で淹れたての味。植物の癒やしを。"]
+  }
+};
+
+export const orgValues = ["all", "心", "肝", "脾", "肺", "腎"];
+export const scnValues = ["all", "舒眠", "代謝", "元氣", "呼吸", "明目", "平衡", "生理期"];
+
