@@ -6,14 +6,16 @@ A botanical tea product catalog built with React + Vite.
 
 ```
 zenthia.life/
-├── front-end/          # Vite React application
-│   ├── src/            # Source code
-│   ├── public/         # Static assets
-│   ├── dist/           # Built files (generated)
-│   ├── package.json    # Frontend dependencies
-│   └── vite.config.js  # Vite configuration
-├── server.js           # Production server (serves built files)
-├── start_zenthia.sh    # Deployment script (used by PM2)
+├── .github/
+│   └── workflows/
+│       └── deploy.yml      # GitHub Actions CI/CD
+├── front-end/              # Vite React application
+│   ├── src/                # Source code
+│   ├── public/             # Static assets
+│   ├── package.json        # Frontend dependencies
+│   └── vite.config.js      # Vite configuration
+├── server.js               # Production server (serves built files)
+├── start_zenthia.sh        # PM2 startup script
 └── README.md
 ```
 
@@ -27,44 +29,40 @@ npm run dev
 
 The development server runs on http://localhost:5173
 
-## Production Deployment
+## Deployment
 
-The `start_zenthia.sh` script handles the full deployment:
+### Automatic (GitHub Actions)
 
-1. Installs dependencies (if needed)
-2. Builds the Vite app
-3. Starts the Node.js server on port 5446
+When changes are merged to `main`:
+1. GitHub Actions builds the Vite app
+2. Deploys the built files to DigitalOcean droplet via SCP
+3. Restarts PM2
 
-### Manual deployment:
+### GitHub Secrets Required
+
+Set these in your repo Settings → Secrets → Actions:
+
+| Secret | Description |
+|--------|-------------|
+| `DO_HOST` | Your droplet IP address |
+| `DO_USERNAME` | SSH username (e.g., `root`) |
+| `DO_SSH_KEY` | Private SSH key for authentication |
+| `DO_DEPLOY_PATH` | Deployment path (e.g., `/var/www/zenthia.life`) |
+
+### Manual Deployment
 
 ```bash
-# Build the app
+# Build locally
 cd front-end
 npm install
 npm run build
-cd ..
 
-# Start the server
-node server.js
-```
+# Copy to server
+scp -r front-end/dist server.js start_zenthia.sh user@server:/path/to/zenthia.life/
 
-### PM2 deployment:
-
-```bash
-pm2 start start_zenthia.sh --name zenthia
-```
-
-## Auto-Deploy on DigitalOcean
-
-When changes are merged to `main`, pull and restart on your droplet:
-
-```bash
-cd /path/to/zenthia.life
-git pull origin main
+# On server
 pm2 restart zenthia
 ```
-
-Or set up a webhook/cron for automatic updates.
 
 ## Port
 
