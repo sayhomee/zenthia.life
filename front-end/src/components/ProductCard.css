@@ -1,0 +1,329 @@
+.p-card {
+  background: var(--paper-white);
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 80px 250px 1fr 320px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.p-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.p-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 50px 100px rgba(53, 69, 55, 0.18);
+}
+
+.p-num {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: rgba(53, 69, 55, 0.15);
+  padding: 45px 20px;
+}
+
+.p-side {
+  padding: 45px 30px;
+  border-right: 1px solid #f2f0eb;
+}
+
+.p-meridian {
+  font-size: 9px;
+  color: var(--gold-accent);
+  letter-spacing: 3px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.p-name-cn {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand-green);
+  margin-bottom: 4px;
+}
+
+.p-name-en {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 400;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.p-name-jp {
+  font-size: 13px;
+  color: var(--gold-accent);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.p-main {
+  padding: 45px 50px;
+}
+
+.p-lbl {
+  font-size: 9px;
+  color: #c0b7ad;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.p-eff {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brand-green);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.p-tg {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.molecular-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid rgba(166, 137, 102, 0.3);
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold-accent);
+  font-weight: 700;
+}
+
+.molecular-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--gold-accent);
+  transition: 0.5s;
+}
+
+.molecular-btn:hover {
+  border-color: var(--brand-green);
+  color: var(--brand-green);
+  background: #fdfaf5;
+}
+
+.molecular-btn:hover svg {
+  transform: rotate(-15deg);
+  fill: var(--brand-green);
+}
+
+.p-formula {
+  padding: 45px 35px;
+  background: rgba(0, 0, 0, 0.01);
+  border-left: 1px solid #eee;
+}
+
+.f-item {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.f-cn {
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+
+.f-jp {
+  font-size: 11px;
+  color: var(--gold-accent);
+  margin-left: 6px;
+}
+
+.f-en {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: #777;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+.more-indicator {
+  font-size: 10px;
+  color: var(--gold-accent);
+  font-weight: 700;
+}
+
+/* Large Tablet */
+@media (max-width: 1100px) {
+  .p-card {
+    grid-template-columns: 60px 200px 1fr;
+  }
+
+  .p-formula {
+    display: none;
+  }
+
+  .p-num {
+    padding: 35px 15px;
+    font-size: 20px;
+  }
+
+  .p-side {
+    padding: 35px 25px;
+  }
+
+  .p-main {
+    padding: 35px 40px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .p-card {
+    grid-template-columns: 1fr;
+    margin-bottom: 20px;
+  }
+
+  .p-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px rgba(53, 69, 55, 0.15);
+  }
+
+  .p-num {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 0;
+    font-size: 32px;
+    opacity: 0.3;
+  }
+
+  .p-side {
+    padding: 25px 20px 15px;
+    border-right: none;
+    border-bottom: 1px solid #f2f0eb;
+  }
+
+  .p-meridian {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .p-name-cn {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .p-name-en {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .p-name-jp {
+    font-size: 12px;
+  }
+
+  .p-main {
+    padding: 20px;
+  }
+
+  .p-lbl {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+
+  .p-eff {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .p-tg {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  .molecular-btn {
+    padding: 10px 15px;
+    font-size: 9px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .p-card {
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .p-num {
+    font-size: 28px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .p-side {
+    padding: 20px 15px 12px;
+  }
+
+  .p-meridian {
+    font-size: 7px;
+  }
+
+  .p-name-cn {
+    font-size: 18px;
+  }
+
+  .p-name-en {
+    font-size: 9px;
+  }
+
+  .p-name-jp {
+    font-size: 11px;
+  }
+
+  .p-main {
+    padding: 15px;
+  }
+
+  .p-lbl {
+    font-size: 7px;
+  }
+
+  .p-eff {
+    font-size: 14px;
+  }
+
+  .p-tg {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .molecular-btn {
+    padding: 12px;
+    font-size: 9px;
+  }
+
+  .molecular-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
