@@ -1,10 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { LanguageProvider } from './context/LanguageContext.jsx';
+import { RitualProvider } from './context/RitualContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import FilterConsole from './components/FilterConsole.jsx';
 import Catalog from './components/Catalog.jsx';
 import DetailPanel from './components/DetailPanel.jsx';
+import RitualDrawer from './components/RitualDrawer.jsx';
+import RitualButton from './components/RitualButton.jsx';
+import CheckoutModal from './components/CheckoutModal.jsx';
 import { products } from './data/products.js';
 import './App.css';
 
@@ -71,6 +75,9 @@ const AppContent = () => {
         isOpen={isPanelOpen} 
         onClose={handleCloseDetail} 
       />
+      <RitualDrawer />
+      <RitualButton />
+      <CheckoutModal />
     </>
   );
 };
@@ -78,7 +85,9 @@ const AppContent = () => {
 const App = () => {
   return (
     <LanguageProvider>
-      <AppContent />
+      <RitualProvider>
+        <AppContent />
+      </RitualProvider>
     </LanguageProvider>
   );
 };

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Zenthia</title>
+    <link rel="icon" type="image/svg+xml" href="/tea-leaf.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --bg-hover: #1a1a1a;
+            --border: #2a2a2a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #888;
+            --text-muted: #666;
+            --accent-green: #4a6741;
+            --accent-sage: #87a96b;
+            --accent-gold: #c4a052;
+            --accent-cream: #f5efe6;
+            --status-pending: #f59e0b;
+            --status-confirmed: #10b981;
+            --status-completed: #3b82f6;
+            --status-cancelled: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent-cream);
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-sage) 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-error {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #ef4444;
+            font-size: 14px;
+        }
+
+        /* Admin Dashboard */
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-brand-icon {
+            font-size: 28px;
+        }
+
+        .admin-brand-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-cream);
+        }
+
+        .admin-brand-sub {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--status-cancelled);
+            color: var(--status-cancelled);
+        }
+
+        .admin-content {
+            padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-sage);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-cream);
+        }
+
+        .refresh-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--accent-sage);
+            color: var(--accent-sage);
+        }
+
+        .orders-table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th {
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .orders-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .orders-table tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        .order-id {
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--accent-gold);
+        }
+
+        .customer-name {
+            font-weight: 500;
+        }
+
+        .customer-email {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .items-list {
+            max-width: 300px;
+        }
+
+        .items-list-item {
+            font-size: 13px;
+            padding: 2px 0;
+        }
+
+        .items-count {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--status-pending);
+        }
+
+        .status-confirmed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--status-confirmed);
+        }
+
+        .status-completed {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--status-completed);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--status-cancelled);
+        }
+
+        .status-select {
+            padding: 6px 10px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent-sage);
+            color: var(--accent-sage);
+        }
+
+        .action-btn.delete:hover {
+            border-color: var(--status-cancelled);
+            color: var(--status-cancelled);
+        }
+
+        .order-date {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 16px;
+        }
+
+        /* Order Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-cream);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .detail-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            width: 120px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .detail-value {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .detail-items {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .detail-items-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item-name {
+            color: var(--text-primary);
+        }
+
+        .detail-item-qty {
+            color: var(--accent-sage);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 12px 16px;
+            }
+
+            .admin-content {
+                padding: 16px;
+            }
+
+            .orders-table-container {
+                overflow-x: auto;
+            }
+
+            .orders-table {
+                min-width: 800px;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-card">
+            <div class="login-logo">🍃</div>
+            <h1 class="login-title">Zenthia Admin</h1>
+            <p class="login-subtitle">Order Management Portal</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+            </form>
+            
+            <div class="login-error" id="loginError" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-container" id="adminDashboard">
+        <header class="admin-header">
+            <div class="admin-brand">
+                <span class="admin-brand-icon">🍃</span>
+                <div>
+                    <div class="admin-brand-text">Zenthia</div>
+                    <div class="admin-brand-sub">Order Management</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </header>
+
+        <main class="admin-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value" id="statTotal">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending</div>
+                    <div class="stat-value" id="statPending">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Confirmed</div>
+                    <div class="stat-value" id="statConfirmed">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-value" id="statCompleted">0</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Orders</h2>
+                <button class="refresh-btn" id="refreshBtn">↻ Refresh</button>
+            </div>
+
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📦</div>
+                    <div class="empty-text">No orders yet</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Order Details</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let authToken = localStorage.getItem('zenthia_admin_token');
+        let orders = [];
+
+        // Elements
+        const loginPage = document.getElementById('loginPage');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const ordersTableBody = document.getElementById('ordersTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const orderModal = document.getElementById('orderModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalBody = document.getElementById('modalBody');
+
+        // API Base URL
+        const API_BASE = window.location.origin;
+
+        // Check auth on load
+        if (authToken) {
+            checkAuth();
+        }
+
+        // Login form submit
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Signing in...';
+            loginError.style.display = 'none';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('zenthia_admin_token', authToken);
+                    showDashboard();
+                    loadOrders();
+                } else {
+                    showLoginError(data.error || 'Invalid password');
+                }
+            } catch (err) {
+                showLoginError('Connection error. Please try again.');
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Sign In';
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            authToken = null;
+            localStorage.removeItem('zenthia_admin_token');
+            showLogin();
+        });
+
+        // Refresh
+        refreshBtn.addEventListener('click', loadOrders);
+
+        // Modal close
+        modalClose.addEventListener('click', () => {
+            orderModal.classList.remove('active');
+        });
+
+        orderModal.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                orderModal.classList.remove('active');
+            }
+        });
+
+        function showLoginError(msg) {
+            loginError.textContent = msg;
+            loginError.style.display = 'block';
+        }
+
+        function showLogin() {
+            loginPage.style.display = 'flex';
+            adminDashboard.style.display = 'none';
+        }
+
+        function showDashboard() {
+            loginPage.style.display = 'none';
+            adminDashboard.style.display = 'block';
+        }
+
+        async function checkAuth() {
+            try {
+                const res = await fetch(`${API_BASE}/api/orders`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                if (res.ok) {
+                    showDashboard();
+                    loadOrders();
+                } else {
+                    authToken = null;
+                    localStorage.removeItem('zenthia_admin_token');
+                    showLogin();
+                }
+            } catch (err) {
+                showLogin();
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                const res = await fetch(`${API_BASE}/api/orders`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    orders = data.orders;
+                    renderOrders();
+                    updateStats();
+                }
+            } catch (err) {
+                console.error('Failed to load orders:', err);
+            }
+        }
+
+        function renderOrders() {
+            if (orders.length === 0) {
+                ordersTableBody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            ordersTableBody.innerHTML = orders.map(order => `
+                <tr>
+                    <td><span class="order-id">${order.id}</span></td>
+                    <td>
+                        <div class="customer-name">${escapeHtml(order.name)}</div>
+                        <div class="customer-email">${escapeHtml(order.email)}</div>
+                    </td>
+                    <td>
+                        <div class="items-list">
+                            ${order.items.slice(0, 2).map(item => `
+                                <div class="items-list-item">${escapeHtml(item.en || item.zt || 'Item')} ×${item.quantity}</div>
+                            `).join('')}
+                            ${order.items.length > 2 ? `<div class="items-count">+${order.items.length - 2} more</div>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <select class="status-select" onchange="updateStatus('${order.id}', this.value)">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                            <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td><span class="order-date">${formatDate(order.createdAt)}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn" onclick="viewOrder('${order.id}')">View</button>
+                            <button class="action-btn delete" onclick="deleteOrder('${order.id}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const total = orders.length;
+            const pending = orders.filter(o => o.status === 'pending').length;
+            const confirmed = orders.filter(o => o.status === 'confirmed').length;
+            const completed = orders.filter(o => o.status === 'completed').length;
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statConfirmed').textContent = confirmed;
+            document.getElementById('statCompleted').textContent = completed;
+        }
+
+        async function updateStatus(orderId, status) {
+            try {
+                const res = await fetch(`${API_BASE}/api/orders/${orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (res.ok) {
+                    loadOrders();
+                }
+            } catch (err) {
+                console.error('Failed to update status:', err);
+            }
+        }
+
+        async function deleteOrder(orderId) {
+            if (!confirm('Are you sure you want to delete this order?')) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/orders/${orderId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                if (res.ok) {
+                    loadOrders();
+                }
+            } catch (err) {
+                console.error('Failed to delete order:', err);
+            }
+        }
+
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            modalBody.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Order ID</div>
+                    <div class="detail-value">${order.id}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value"><span class="status-badge status-${order.status}">${order.status}</span></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Name</div>
+                    <div class="detail-value">${escapeHtml(order.name)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${escapeHtml(order.email)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone</div>
+                    <div class="detail-value">${escapeHtml(order.phone) || '-'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Notes</div>
+                    <div class="detail-value">${escapeHtml(order.notes) || '-'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">${formatDate(order.createdAt)}</div>
+                </div>
+                <div class="detail-items">
+                    <div class="detail-items-title">Items (${order.totalItems} total)</div>
+                    ${order.items.map(item => `
+                        <div class="detail-item">
+                            <span class="detail-item-name">${escapeHtml(item.en || item.zt || 'Item')}</span>
+                            <span class="detail-item-qty">×${item.quantity}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            orderModal.classList.add('active');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

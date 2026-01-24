@@ -49,3 +49,5 @@ jobs:
             cd ${{ secrets.DO_DEPLOY_PATH }}
             pm2 restart zenthia || pm2 start start_zenthia.sh --name zenthia
 
+
+

@@ -1,0 +1,569 @@
+/* ========================================
+   TOAST NOTIFICATION
+   ======================================== */
+.ritual-toast {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--brand-green);
+  padding: 16px 30px;
+  z-index: 4000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 10px 40px rgba(53, 69, 55, 0.3);
+  overflow: hidden;
+}
+
+.ritual-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #fff;
+  animation: toastIconPop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes toastIconPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.toast-text {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gold-accent);
+  width: 100%;
+  transform-origin: left;
+  animation: none;
+}
+
+.ritual-toast.show .toast-progress {
+  animation: toastProgress 2.5s linear forwards;
+}
+
+@keyframes toastProgress {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* ========================================
+   RITUAL BAR - Prominent when items exist
+   ======================================== */
+.ritual-bar {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--brand-green);
+  z-index: 2500; /* Above detail panel and buy button */
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 
+    0 10px 40px rgba(53, 69, 55, 0.4),
+    0 4px 15px rgba(53, 69, 55, 0.3),
+    0 0 0 1px rgba(166, 137, 102, 0.2);
+  animation: barSlideUp 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes barSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ritual-bar:hover {
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: 
+    0 20px 60px rgba(53, 69, 55, 0.5),
+    0 8px 25px rgba(53, 69, 55, 0.35),
+    0 0 0 1px rgba(166, 137, 102, 0.3);
+}
+
+.ritual-bar:active {
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* Glow effect */
+.ritual-bar-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(166, 137, 102, 0.15) 0%,
+    transparent 70%
+  );
+  animation: glowPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Shimmer effect */
+.ritual-bar-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+.ritual-bar-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.ritual-bar-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--gold-accent);
+  flex-shrink: 0;
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.ritual-bar-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ritual-bar-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ritual-bar-title {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.ritual-bar-preview {
+  display: block;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.ritual-bar-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.count-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1;
+}
+
+.count-label {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.ritual-bar-arrow {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.ritual-bar-arrow span {
+  font-size: 18px;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.ritual-bar:hover .ritual-bar-arrow {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ritual-bar:hover .ritual-bar-arrow span {
+  transform: translateX(5px);
+}
+
+/* Pulse animation when item added */
+.ritual-bar.pulse {
+  animation: barPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes barPulse {
+  0% { transform: translateX(-50%) scale(1); }
+  30% { transform: translateX(-50%) scale(1.05); }
+  60% { transform: translateX(-50%) scale(0.98); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+/* ========================================
+   EMPTY STATE - Small button
+   ======================================== */
+.ritual-fab-empty {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  background: rgba(53, 69, 55, 0.8);
+  border: 1px solid rgba(166, 137, 102, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.ritual-fab-empty:hover {
+  background: var(--brand-green);
+  transform: scale(1.1);
+  box-shadow: 0 5px 20px rgba(53, 69, 55, 0.3);
+}
+
+.ritual-fab-empty .fab-icon {
+  width: 22px;
+  height: 22px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s ease;
+}
+
+.ritual-fab-empty:hover .fab-icon {
+  color: #fff;
+}
+
+.ritual-fab-empty .fab-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================================
+   RESPONSIVE - Tablet
+   ======================================== */
+@media (max-width: 768px) {
+  .ritual-toast {
+    top: 20px;
+    padding: 14px 25px;
+    max-width: calc(100% - 40px);
+  }
+
+  .toast-text {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .ritual-bar {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    transform: none;
+    width: auto;
+  }
+
+  .ritual-bar:hover {
+    transform: translateY(-3px);
+  }
+
+  .ritual-bar.pulse {
+    animation: barPulseMobile 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes barPulseMobile {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.02); }
+    60% { transform: scale(0.99); }
+    100% { transform: scale(1); }
+  }
+
+  .ritual-bar-content {
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  .ritual-bar-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ritual-bar-title {
+    font-size: 13px;
+  }
+
+  .ritual-bar-preview {
+    font-size: 10px;
+    max-width: 150px;
+  }
+
+  .ritual-bar-count {
+    padding: 0 15px;
+  }
+
+  .count-num {
+    font-size: 24px;
+  }
+
+  .ritual-bar-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .ritual-fab-empty {
+    bottom: 25px;
+    left: 25px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .ritual-fab-empty .fab-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ========================================
+   RESPONSIVE - Mobile
+   ======================================== */
+@media (max-width: 480px) {
+  .ritual-toast {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    transform: translateX(0) translateY(-20px);
+    padding: 12px 20px;
+    max-width: none;
+  }
+
+  .ritual-toast.show {
+    transform: translateX(0) translateY(0);
+  }
+
+  .toast-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .toast-text {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .ritual-bar {
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    border-radius: 0;
+  }
+
+  .ritual-bar:hover {
+    transform: none;
+  }
+
+  .ritual-bar-content {
+    padding: 14px 15px;
+    gap: 12px;
+  }
+
+  .ritual-bar-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ritual-bar-info {
+    flex: 1;
+  }
+
+  .ritual-bar-title {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .ritual-bar-preview {
+    font-size: 9px;
+    max-width: 100px;
+  }
+
+  .ritual-bar-count {
+    padding: 0 12px;
+  }
+
+  .count-num {
+    font-size: 22px;
+  }
+
+  .count-label {
+    font-size: 7px;
+  }
+
+  .ritual-bar-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ritual-bar-arrow span {
+    font-size: 16px;
+  }
+
+  .ritual-fab-empty {
+    bottom: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .ritual-fab-empty:hover {
+    transform: none;
+  }
+
+  .ritual-fab-empty .fab-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .ritual-bar {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .ritual-bar-content {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .ritual-bar-icon {
+    display: none;
+  }
+
+  .ritual-bar-title {
+    font-size: 11px;
+  }
+
+  .ritual-bar-preview {
+    display: none;
+  }
+
+  .ritual-bar-count {
+    padding: 0 10px;
+  }
+
+  .count-num {
+    font-size: 20px;
+  }
+
+  .ritual-bar-arrow {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ritual-fab-empty {
+    bottom: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* iOS Safe Areas */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .ritual-bar {
+    bottom: calc(15px + env(safe-area-inset-bottom));
+  }
+
+  .ritual-fab-empty {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: calc(20px + env(safe-area-inset-left));
+  }
+
+  @media (max-width: 480px) {
+    .ritual-bar {
+      bottom: calc(10px + env(safe-area-inset-bottom));
+      left: calc(10px + env(safe-area-inset-left));
+      right: calc(10px + env(safe-area-inset-right));
+    }
+  }
+}
